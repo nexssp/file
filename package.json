@@ -9,7 +9,8 @@
   },
   "files": [
     "src/**/*",
-    "bin/*"
+    "bin/*",
+    "aliases.json"
   ],
   "scripts": {
     "test1": "node ./bin/nexssp-file.js",

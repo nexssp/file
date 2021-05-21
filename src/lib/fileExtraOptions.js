@@ -1,5 +1,6 @@
 module.exports.extraFunctions = (templatePath) => {
   const { which } = require('@nexssp/ensure')
+  const { green, bold } = require('@nexssp/ansi')
   const _log = require('@nexssp/logdebug')
   const _fs = require('fs')
   // Extra operation for the template like installations, files copy, info
@@ -59,11 +60,11 @@ ${destinationPath}`
         // console.log(cmd);
         cmd = process.replacePMByDistro(cmd2)
 
-        const arg_progress = nexss['arg:progress']
-
         if (cmd) {
-          if (!process.argv.includes('--progress') && !process.nexssGlobalConfig[arg_progress]) {
-            _log.info('To see all installation messages use --progress.')
+          if (!process.argv.includes('--progress') && !process.env.NEXSS_ARG_PROGRESS) {
+            _log.info(
+              'To see all installation messages use --progress or set the env variable: NEXSS_ARG_PROGRESS'
+            )
             defaultOptions.stdio = 'pipe'
           }
 
@@ -88,14 +89,18 @@ ${destinationPath}`
           }
         }
       })
+
+      _log.info(green(bold(`Completed.`)))
     }
 
     const descriptions = extraOptions.descriptions || []
     if (descriptions.length > 0) {
       // warn("Some information about installed packages.");
       descriptions.forEach((desc) => {
-        _log.info(bold('Info from additional third party libraries package:'))
-        _log.info(desc)
+        if (desc) {
+          _log.info(bold('Info from additional third party libraries package:'))
+          _log.info(desc)
+        }
       })
     }
   }

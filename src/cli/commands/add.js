@@ -2,11 +2,13 @@ module.exports = (_, args) => {
   const _log = require('@nexssp/logdebug')
   const { bold, yellow } = require('@nexssp/ansi')
   const { extname, join, resolve, dirname, isAbsolute, normalize } = require('path')
-  const NEXSS_PROJECT_CONFIG_PATH = process.env.NEXSS_PROJECT_CONFIG_PATH
-  const NEXSS_PROJECT_SRC_PATH = NEXSS_PROJECT_CONFIG_PATH
-    ? dirname(NEXSS_PROJECT_CONFIG_PATH)
-    : undefined
   const { config1 } = require('../../config/config')
+  const NEXSS_PROJECT_CONFIG_PATH = process.env.NEXSS_PROJECT_CONFIG_PATH || config1.getPath()
+  const NEXSS_PROJECT_SRC_PATH =
+    process.env.NEXSS_PROJECT_SRC_PATH || NEXSS_PROJECT_CONFIG_PATH
+      ? join(dirname(NEXSS_PROJECT_CONFIG_PATH), 'src')
+      : undefined
+
   // const commandName = process.argv[4]
   // let configContent = config1.load(NEXSS_PROJECT_CONFIG_PATH)
 
@@ -49,6 +51,8 @@ nexss f a myfile.rs`)
 
   options.filePath = options.fileName
 
+  _log.dc(`NEXSS_PROJECT_SRC_PATH:`, NEXSS_PROJECT_SRC_PATH)
+
   if (
     NEXSS_PROJECT_SRC_PATH &&
     !options.fileName.includes('src/') &&
@@ -58,6 +62,8 @@ nexss f a myfile.rs`)
       options.filePath = join(NEXSS_PROJECT_SRC_PATH, options.fileName)
     }
   }
+
+  _log.dc(`options.filePath:`, options.filePath)
 
   if (fs.existsSync(options.filePath) && !cliArgs.force && !cliArgs.f) {
     _log.error(`File already exists: ${options.fileName}`)
@@ -108,7 +114,8 @@ nexss file add myprogram.js --template=helloWorld
 
     // const { templateNames } = require("../../nexss-language/lib/templateDELETED");
     const selectedLanguage = language1.byExtension(options.extension)
-    const templateNames = () => selectedLanguage.getTemplatesList()
+    const templateNames = () =>
+      selectedLanguage.getTemplatesList().map((e) => `${options.extension} ${e}`)
 
     questions.push({
       type: 'autocomplete',
@@ -122,7 +129,6 @@ nexss file add myprogram.js --template=helloWorld
 
     inquirer.prompt(questions).then((answers) => {
       Object.assign(options, answers)
-      // console.log(answers.template);
       if (answers.template) {
         answers.template = answers.template.split(' ')[1]
         options.template = answers.template
@@ -135,6 +141,8 @@ nexss file add myprogram.js --template=helloWorld
 
   function execute(options) {
     const { filePath } = options
+
+    _log.dy(`Exectute with options:`, options)
 
     if ((typeof options.template === 'boolean' && options.template) || !options.template) {
       options.template = `default${options.extension}`
@@ -189,7 +197,7 @@ nexss file add myprogram.js --template=helloWorld
           if (!options.fileName.includes('src/') && !options.fileName.includes('src\\')) {
             options.fileName = `src/${options.fileName}`
           }
-
+          require('@nexssp/extend')('object')
           if (!cliArgs.f && configContent.findByProp('files', 'name', options.fileName)) {
             _log.info(yellow(`File '${normalize(options.fileName)}' is already in the _nexss.yml`))
             return
@@ -197,7 +205,7 @@ nexss file add myprogram.js --template=helloWorld
           configContent.push('files', {
             name: options.fileName,
           })
-          config1.write(configContent, NEXSS_PROJECT_CONFIG_PATH)
+          config1.save(configContent, NEXSS_PROJECT_CONFIG_PATH)
           _log.success('Done.')
         }
       }
