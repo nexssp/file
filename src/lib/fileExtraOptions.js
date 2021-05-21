@@ -28,7 +28,7 @@ ${destinationPath}`
       const fse = require('fs-extra')
       fse.ensureDirSync(destinationPath)
       fse.copySync(elementPath, path.join(destinationPath, path.basename(element)))
-      log.success('copied.')
+      _log.success('copied.')
     })
 
     const { commands } = extraOptions
