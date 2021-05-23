@@ -1,5 +1,4 @@
 module.exports = (_, args) => {
-  const _log = require('@nexssp/logdebug')
   const NEXSS_PROJECT_CONFIG_PATH = process.env.NEXSS_PROJECT_CONFIG_PATH
 
   const { config1 } = require('../../config/config')

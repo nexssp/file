@@ -1,8 +1,7 @@
 const fs = require('fs')
 
 require('@nexssp/extend')('string')
-const NEXSS_PROJECT_CONFIG_PATH = process.env.NEXSS_PROJECT_CONFIG_PATH
-// const nexssConfig = loadConfigContent(NEXSS_PROJECT_CONFIG_PATH);
+
 const { config1 } = require('../config/config')
 function deleteFile(filename) {
   const questions = []

@@ -1,7 +1,7 @@
 {
   "name": "@nexssp/file",
   "description": "File handling for Nexss Programmer",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "homepage": "https://nexss.com",
   "main": "src/file.js",
   "bin": {
@@ -13,7 +13,7 @@
     "aliases.json"
   ],
   "scripts": {
-    "test1": "node ./bin/nexssp-file.js",
+    "test": "nexssp-test --debug",
     "prepare2": "npm run nexss:build",
     "nexss:build": "npx @nexssp/min@1.0.6",
     "nexss:clean": ""
@@ -52,10 +52,10 @@
   "dependencies": {
     "@nexssp/ansi": "^1.1.2",
     "@nexssp/cache": "^2.0.1",
-    "@nexssp/config": "^1.0.1",
+    "@nexssp/config": "^1.0.4",
     "@nexssp/ensure": "^1.0.2",
     "@nexssp/extend": "^1.0.20",
-    "@nexssp/languages": "^1.0.7",
+    "@nexssp/language": "^1.1.0",
     "@nexssp/logdebug": "^1.0.15",
     "@nexssp/plugin": "^1.0.1",
     "fs-extra": "^10.0.0",
@@ -65,7 +65,6 @@
     "minimist": "^1.2.5"
   },
   "devDependencies": {
-    "@nexssp/test": "^1.0.20",
-    "prettier": "^2.3.0"
+    "@nexssp/test": "^1.0.30"
   }
 }
