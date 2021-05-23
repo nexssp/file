@@ -1,6 +1,6 @@
 module.exports.extraFunctions = (templatePath) => {
   const { which } = require('@nexssp/ensure')
-  const { green, bold, yellow } = require('@nexssp/ansi')
+  const { green, bold, yellow, red } = require('@nexssp/ansi')
   const _log = require('@nexssp/logdebug')
   const _fs = require('fs')
   // Extra operation for the template like installations, files copy, info
