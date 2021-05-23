@@ -20,12 +20,12 @@ function nexssFile({} = {}) {
   const { config1 } = require('./config/config')
   const { language1 } = require('./config/language')
   const cliArgs = require('minimist')(process.argv.slice(2))
-  require('./lib/object')
+
   language1.start()
   const start = () => {
     return true
   }
-
+  const { push } = require('@nexssp/extend/object')
   const add = (name, { template } = {}) => {
     // TODO: move the options/cli to the funcs params
 
@@ -112,7 +112,7 @@ function nexssFile({} = {}) {
       const templateNames = () =>
         selectedLanguage.getTemplatesList().map((e) => `${options.extension} ${e}`)
 
-      questions.add({
+      push(questions, {
         type: 'autocomplete',
         name: 'template',
         source: searchData(templateNames, 'extension', options.extension),
@@ -194,13 +194,12 @@ function nexssFile({} = {}) {
           if (!options.fileName.includes('src/') && !options.fileName.includes('src\\')) {
             options.fileName = `src/${options.fileName}`
           }
-          require('@nexssp/extend')('object')
 
           if (!cliArgs.f && configContent.findByProp('files', 'name', options.fileName)) {
             _log.info(yellow(`File '${normalize(options.fileName)}' is already in the _nexss.yml`))
             return
           }
-          configContent.add('files', {
+          push(configContent, 'files', {
             name: options.fileName,
           })
           config1.save(configContent, NEXSS_PROJECT_CONFIG_PATH)

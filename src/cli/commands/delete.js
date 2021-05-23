@@ -31,7 +31,7 @@ module.exports = (_, args) => {
     process.exit()
   }
 
-  require('@nexssp/extend')('object')
+  const { push } = require('@nexssp/extend/object')
   if (options.fileName && nexssConfig.findByProp('files', 'name', options.fileName)) {
     _log.info(`File '${options.fileName}' is in the _nexss.yml.`)
 
@@ -41,7 +41,7 @@ module.exports = (_, args) => {
     const projectFiles = () => nexssConfig.files.map((f) => f.name)
     // console.log(projectFiles())
     const questions = []
-    questions.push({
+    push(questions, {
       type: 'autocomplete',
       name: 'fileToDelete',
       source: searchData(projectFiles),
