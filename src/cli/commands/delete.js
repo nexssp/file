@@ -1,6 +1,6 @@
 module.exports = (_, args) => {
   const _log = require('@nexssp/logdebug')
-
+  const { findByProp } = require('@nexssp/extend/object')
   const NEXSS_PROJECT_CONFIG_PATH = process.env.NEXSS_PROJECT_CONFIG_PATH
   const { config1 } = require('../../config/config')
 
@@ -19,20 +19,21 @@ module.exports = (_, args) => {
   //   }
   //   return;
   // }
-  const cliArgs = require('minimist')(process.argv.slice(2))
   const options = {}
-  options.fileName = cliArgs._[1]
+  options.fileName = args[0]
 
   const nexssConfig = config1.load(NEXSS_PROJECT_CONFIG_PATH)
-  if (!nexssConfig) {
+
+  const { isEmpty } = require('@nexssp/data')
+
+  if (isEmpty(nexssConfig)) {
     _log.warn(
       `You are not in the Nexss Programmer Project. To remove file plase use 'rm ${options.fileName}'`
     )
     process.exit()
   }
 
-  const { push } = require('@nexssp/extend/object')
-  if (options.fileName && nexssConfig.findByProp('files', 'name', options.fileName)) {
+  if (options.fileName && findByProp(nexssConfig, 'files', 'name', options.fileName)) {
     _log.info(`File '${options.fileName}' is in the _nexss.yml.`)
 
     deleteFile(options.fileName)
@@ -41,7 +42,7 @@ module.exports = (_, args) => {
     const projectFiles = () => nexssConfig.files.map((f) => f.name)
     // console.log(projectFiles())
     const questions = []
-    push(questions, {
+    questions.push({
       type: 'autocomplete',
       name: 'fileToDelete',
       source: searchData(projectFiles),

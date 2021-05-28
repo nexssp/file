@@ -112,7 +112,7 @@ function nexssFile({} = {}) {
       const templateNames = () =>
         selectedLanguage.getTemplatesList().map((e) => `${options.extension} ${e}`)
 
-      push(questions, {
+      questions.push({
         type: 'autocomplete',
         name: 'template',
         source: searchData(templateNames, 'extension', options.extension),
@@ -130,7 +130,7 @@ function nexssFile({} = {}) {
         }
 
         execute(options)
-        process.exit(0)
+        // process.exit(0)
       })
     }
   }
@@ -138,7 +138,7 @@ function nexssFile({} = {}) {
   function execute(options) {
     const { filePath } = options
 
-    _log.dy(`Exectute with options:`, options)
+    _log.dy(`Execute with options:`, options)
 
     if ((typeof options.template === 'boolean' && options.template) || !options.template) {
       options.template = `default${options.extension}`
@@ -194,8 +194,8 @@ function nexssFile({} = {}) {
           if (!options.fileName.includes('src/') && !options.fileName.includes('src\\')) {
             options.fileName = `src/${options.fileName}`
           }
-
-          if (!cliArgs.f && configContent.findByProp('files', 'name', options.fileName)) {
+          const { findByProp } = require('@nexssp/extend/object')
+          if (!cliArgs.f && findByProp(configContent, 'files', 'name', options.fileName)) {
             _log.info(yellow(`File '${normalize(options.fileName)}' is already in the _nexss.yml`))
             return
           }
