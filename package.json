@@ -1,7 +1,7 @@
 {
   "name": "@nexssp/file",
   "description": "File handling for Nexss Programmer",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "homepage": "https://nexss.com",
   "main": "src/file.js",
   "bin": {
