@@ -209,7 +209,7 @@ function nexssFile({} = {}) {
       const { extraFunctions } = require('./lib/fileExtraOptions')
       extraFunctions(options.templatePath)
       if (cliArgs.edit) {
-        const { edit } = require('../../nexss-edit/lib/edit')
+        const { edit } = require('./nexss-edit/lib/edit')
         edit(options.fileName)
       }
     }
