@@ -189,16 +189,24 @@ function nexssFile({} = {}) {
 
         // cliArgs.noconfig - no config modification
         if (!cliArgs.noconfig && NEXSS_PROJECT_CONFIG_PATH) {
-          const configContent = config1.load(NEXSS_PROJECT_CONFIG_PATH)
+          let configContent = config1.load(NEXSS_PROJECT_CONFIG_PATH)
 
           if (!options.fileName.includes('src/') && !options.fileName.includes('src\\')) {
             options.fileName = `src/${options.fileName}`
           }
           const { findByProp } = require('@nexssp/extend/object')
-          if (!cliArgs.f && findByProp(configContent, 'files', 'name', options.fileName)) {
-            _log.info(yellow(`File '${normalize(options.fileName)}' is already in the _nexss.yml`))
-            return
+          if (configContent) {
+            if (!cliArgs.f && findByProp(configContent, 'files', 'name', options.fileName)) {
+              _log.info(
+                yellow(`File '${normalize(options.fileName)}' is already in the _nexss.yml`)
+              )
+              return
+            }
+          } else {
+            configContent = {}
+            configContent.files = []
           }
+
           push(configContent, 'files', {
             name: options.fileName,
           })
