@@ -39,6 +39,6 @@ jobs:
         shell: pwsh
         if: ${{ env.ACT || runner.os == 'Windows'}}
       - run: sudo yarn test
-        if: ${{ !env.ACT && runner.os != 'Windows' }}
+        if: ${{ !env.ACT && runner.os != 'Windows' && runner.os != 'macOS' }}
       - run: yarn test
         if: ${{ runner.os == 'macOS' }}
