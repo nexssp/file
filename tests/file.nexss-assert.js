@@ -15,4 +15,9 @@ require('child_process').execSync(`${binFileCommand} add myfile.js --template=de
 require('child_process').execSync(`${binFileCommand} add myfile.js --template=default -f`, {
   stdio: 'inherit',
 })
-require('child_process').execSync('dir', { stdio: 'inherit' })
+
+if (process.platform === 'win32') {
+  require('child_process').execSync('dir', { stdio: 'inherit' })
+} else {
+  require('child_process').execSync('ls', { stdio: 'inherit' })
+}
