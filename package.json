@@ -56,7 +56,7 @@
     "@nexssp/data": "^1.0.8",
     "@nexssp/ensure": "^1.1.22",
     "@nexssp/extend": "^2.0.9",
-    "@nexssp/language": "^1.1.21",
+    "@nexssp/language": "^1.1.22",
     "@nexssp/logdebug": "^1.0.20",
     "@nexssp/plugin": "^1.0.9",
     "fs-extra": "^10.0.1",
